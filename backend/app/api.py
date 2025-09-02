@@ -6,11 +6,19 @@ from starlette.responses import RedirectResponse
 from .schemas import PredictRequest, PredictResponse
 from .model import predict
 
+# backend/app/api.py
+from starlette.responses import RedirectResponse
+@app.get("/", include_in_schema=False)
+def root(): return RedirectResponse(url="/docs")
+
 app = FastAPI(
     title="Loan Advisor API",
     version="0.1.0",
     description="Minimal API for loan approval demo. Swap the model later without breaking the contract.",
 )
+
+@app.get("/version")
+def version(): return {"version": "0.1.0"}
 
 # CORS so your future frontend can call it
 app.add_middleware(
